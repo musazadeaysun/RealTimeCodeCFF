@@ -1,0 +1,112 @@
+.roomCode {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 10px;
+  font-weight: bold;
+}
+
+/* CARD */
+.cardsRoomCode {
+  margin-top: 30px;
+  width: 50%;
+  max-width: 350px;
+}
+
+.complate {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.iconDone {
+  color: #4bb543;
+  font-size: 30px;
+  border-radius: 50%;
+  border: 2px solid #4bb543;
+  padding: 5px;
+  background-color: #f0f0f028;
+}
+
+/* ROOM CODE ROW */
+.RoomNumber {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.RoomNumber h2 {
+  margin: 0;
+  background-color: rgba(0, 0, 255, 0.597);
+  padding: 6px 16px;
+  border-radius: 12px;
+  word-break: break-word;
+}
+
+/* COPY ICON */
+.iconCopy {
+  color: #e8e4e4;
+  border: 2px solid #0e28f174;
+  border-radius: 8px;
+  padding: 6px;
+  background-color: rgba(0, 0, 255, 0.597);
+  font-size: 36px;
+  cursor: pointer;
+}
+
+/* TEXT */
+.card p {
+  margin: 6px 0;
+  line-height: 1.4;
+}
+
+/* ===================== */
+/* RESPONSIVE */
+/* ===================== */
+
+@media (max-width: 1024px) {
+  .cardsRoomCode {
+    width: 40%;
+    max-width: 60%;
+  }
+}
+
+@media (max-width: 768px) {
+  .cardsRoomCode {
+    width: 50%;
+  }
+
+  .iconDone {
+    font-size: 32px;
+  }
+
+  .iconCopy {
+    font-size: 30px;
+  }
+}
+
+@media (max-width: 500px) {
+  .cardsRoomCode {
+    width: 100%;
+  }
+
+  .complate {
+    gap: 10px;
+  }
+
+  .RoomNumber {
+    gap: 10px;
+  }
+
+  .RoomNumber h2 {
+    font-size: 16px;
+    padding: 6px 10px;
+  }
+
+  .iconDone {
+    font-size: 26px;
+  }
+
+  .iconCopy {
+    font-size: 26px;
+  }
+
+}

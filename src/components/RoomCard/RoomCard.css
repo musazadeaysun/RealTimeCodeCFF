@@ -1,4 +1,3 @@
-/* RESET */
 * {
   margin: 0;
   padding: 0;
@@ -8,7 +7,6 @@
     sans-serif;
 }
 
-/* MAIN */
 .home {
   position: relative;
   min-height: 100vh;
@@ -17,7 +15,6 @@
   color: white;
 }
 
-/* VIDEO */
 .bg-video {
   position: absolute;
   inset: 0;
@@ -27,7 +24,6 @@
   filter: brightness(0.1);
 }
 
-/* CONTENT */
 .content {
   position: relative;
   z-index: 10;
@@ -37,15 +33,9 @@
   padding: 40px 20px;
 }
 
-/* TEXT */
 .text-section {
   text-align: center;
-  margin-top: 20px;
   max-width: 650px;
-}
-
-.typing-box {
-  min-height: 140px;
 }
 
 .title {
@@ -62,29 +52,28 @@
   margin-top: 10px;
   color: #ccc;
   border-left: 2px solid #06b6d4;
+  border-right: 2px solid #06b6d4;
+
   padding-left: 10px;
 }
 
-/* CARDS */
 .cards {
-  margin-top: 50px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  margin-top: 30px;
   width: 100%;
   max-width: 750px;
 }
 
 .card {
-  background-color: #111;
+  background-color: #332f2f94;
   border: 1px solid #222;
   padding: 20px;
+  margin-top: 20px;
   border-radius: 16px;
   transition: 0.3s;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 220px;
+  min-height: 200px;
   text-align: left;
 }
 
@@ -93,7 +82,6 @@
   box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
 }
 
-/* ICON */
 .icon {
   background-color: rgba(59, 130, 246, 0.15);
   color: #3b82f6;
@@ -104,11 +92,6 @@
   border-radius: 8px;
 }
 
-/* TEXT INSIDE CARD */
-.card h2 {
-  margin: 10px 0;
-}
-
 .card p {
   color: #aaa;
   font-size: 15px;
@@ -116,29 +99,29 @@
 }
 
 .card a {
-  display: inline-block;
-  margin-top: 10px;
+  display: flex;
+  /* margin-top: 10px; */
   color: #3b82f6;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 18px;  
+  justify-content: flex-end;
+
+  transition: 0.25s;
 }
-
-/* ========================= */
-/* RESPONSIVE DESIGN */
-/* ========================= */
-
-/* TABLET */
+.card a:hover {
+  color: #2563eb;
+  transform: translateX(4px);
+}
 @media (max-width: 1024px) {
   .title {
     font-size: 28px;
   }
 
   .cards {
-    max-width: 600px;
+    max-width: 580px;
   }
 }
 
-/* MOBILE */
 @media (max-width: 768px) {
   .title {
     font-size: 22px;
@@ -147,11 +130,6 @@
   .desc {
     font-size: 14px;
   }
-
-  .cards {
-    grid-template-columns: 1fr;
-  }
-
   .card {
     min-height: auto;
     padding: 16px;
@@ -166,7 +144,6 @@
   }
 }
 
-/* SMALL MOBILE */
 @media (max-width: 480px) {
   .title {
     font-size: 20px;
