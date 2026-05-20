@@ -1,0 +1,67 @@
+.studentPanel{
+    background-color: black;
+    /* padding: 10px; */
+}
+.studentPanelHeader{
+    /* margin: 10px; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:5px 25px;
+    background-color: rgb(30, 30, 30);
+    border-bottom: 1px solid white;
+}
+
+.panelHeaderLeft{
+   /* background-color: rgb(44, 44, 44); */
+   height: 4vw;
+   padding: 10px;
+   display: flex;
+   flex-direction: row;
+   gap: 10px;
+}
+.panelHeaderLeft p{
+    background-color: rgba(111, 111, 111, 0.3);
+    border: 2px solid #76767674;
+    border-radius: 5px;
+    width: 110px;
+    color: white;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+.panelHeaderLeft p span{
+  color: white;
+    font-weight: 700;
+    font-size: 16px;
+}   
+button {
+    background-color: blue;
+    border: 2px solid #0e28f174;
+    height: 2vw;
+    width: 60px;
+    display: flex;
+    color: white;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+    gap: 10px;
+}
+.panelHeaderRight{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.iconLogOut{
+    font-size: 22px;
+    color: white;
+    cursor: pointer;
+   /* padding-right:20px ; */
+}

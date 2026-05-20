@@ -1,0 +1,77 @@
+label {
+  font-weight: bold;
+  font-size: 16px;
+}
+input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  background-color: #1e1e1e;
+  border: 1px solid #1806a3;
+  border-radius: 8px;
+  color: white;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.cardsJoinRoom {
+  margin-top: 30px;
+  width: 100%;
+  max-width: 350px;
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+
+.buttonJoinRoom {
+  background-color: #3b82f6;
+  color: white;
+  border: 1px solid black;
+  padding: 10px;
+  margin-top: 10px;
+  width: 100%;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.buttonJoinRoom:hover {
+  background-color: #2563eb;
+}
+
+@media (max-width: 768px) {
+  .cardsJoinRoom {
+    max-width: 60%;
+  }
+
+  input {
+    padding: 9px;
+    font-size: 14px;
+  }
+
+  .buttonJoinRoom {
+    font-size: 15px;
+    padding: 9px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cardsJoinRoom {
+    max-width: 80%;
+    padding: 0 10px;
+  }
+
+  label {
+    font-size: 14px;
+  }
+
+  input {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .buttonJoinRoom {
+    font-size: 14px;
+    padding: 8px;
+  }
+}

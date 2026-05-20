@@ -1,7 +1,50 @@
+import { useState } from "react";
 import "./JoinRoom.css";
-import { TbDeviceImacCode } from "react-icons/tb";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { joinRoomApi } from "../../../api/roomApi";
+
 const JoinRoom = () => {
+    const [roomCode, setRoomCode] = useState("");
+  const [studentName, setStudentName] = useState("");
+const [error, setError] = useState(""); 
+
+  const navigate = useNavigate();
+
+ const handleJoinRoom = async () => {
+  if (!roomCode.trim() || !studentName.trim()) {
+    setError("Bütün xanaları doldurun");
+    return;
+  }
+if (studentName.trim().length < 3) {
+  setError("Ad minimum 3 simvol olmalıdır");
+  return;
+}
+
+ if (!/^\d{6}$/.test(roomCode)) {
+    setError("Otaq kodu 6 rəqəmli olmalıdır");
+    return;
+  } 
+  try {
+    setError("");
+
+    await joinRoomApi(roomCode, studentName);
+
+    navigate(`/room/${roomCode}`, {
+      state: {
+        studentName,
+      },
+    });
+  localStorage.setItem("studentName", studentName);
+    localStorage.setItem("roomCode", roomCode);
+    localStorage.setItem("participant", JSON.stringify(data.data));
+  }catch (err) {
+  setError("Otaq kodu yanlışdır" || "Otağa qoşulmaq mümkün olmadı");
+}
+};
+
+
+
+
   return (
     <div className="home">
       {/* VIDEO */}
@@ -27,21 +70,32 @@ const JoinRoom = () => {
         </div>
 
         {/* CARDS */}
-        <div className="cards">
+        <div className="cardsJoinRoom">
 
           <div className="card">
-            <TbDeviceImacCode className="icon" />
-            <h2>Otaq Yarat</h2>
+            <h2>Otağa Qoşul</h2>
             <p>
-              Yeni dərs otağı yaradın və tələbələrinizi real vaxtda kod yazarkən izləyin.
+              Dərs otağına qoşulun və müəlliminizlə birlikdə kod yazın.
             </p>
-         <Link to="/pages/Teachers/CreateRoom">Başla →</Link>
+          <form action="">
+            {error && <p className="errorText">{error}</p>}
+            <label htmlFor="roomCode">Otaq Kodu:</label> <br />
+            <input type="text" id="roomCode" value={roomCode}
+              onChange={(e) => setRoomCode(e.target.value)}/> <br />
+          <label htmlFor="studentName">Adınız:</label> <br />
+          <input type="text" id="studentName" value={studentName}
+            onChange={(e) => setStudentName(e.target.value)}/> <br />
+          </form>
+          <button className="buttonJoinRoom" onClick={handleJoinRoom}>Qoşul</button>
+
+          </div>
+          
           </div>
 
         </div>
 
       </div>
-    </div>
+
   );
 };
 

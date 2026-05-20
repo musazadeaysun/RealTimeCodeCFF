@@ -1,0 +1,88 @@
+.leftPanel {
+  background-color: rgb(20, 19, 19);
+  width: 25%;
+}
+.dashboard {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  color: white;
+}
+.panelContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: 20px;
+}
+.panelContent p {
+  color: rgba(0, 0, 255, 0.499);
+  font-weight: 600;
+  padding: 20px;
+}
+.codesDashboard {
+  display: flex;
+  flex-direction: row;
+  background-color: black;
+  width: 90%;
+  border: 1px solid #222;
+  padding: 10px;
+  border-radius: 16px;
+  margin: 0px auto;
+  justify-content: space-between;
+}
+.codeDashboard {
+  transition: 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.copyCode {
+  font-size: 25px;
+  margin-top: 18px;
+}
+.usersIcon {
+  font-size: 45px;
+  margin-top: 18px;
+  border: 2px solid #0e28f174;
+  border-radius: 8px;
+  padding: 6px;
+}
+.codeDashboard h2 {
+  line-height: 1.4;
+  color: #2563eb;
+  font-size: 28px;
+}
+.searchInput {
+  border: 2px solid #0e349d;
+  padding: 10px;
+  font-weight: bold;
+  width: 89%;
+  margin-left: 20px;
+}
+.searchInput:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 8px #2563eb;
+}
+.activeBox {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 10px;
+  margin: 0px auto;
+  width: 90%;
+  justify-content: start;
+}
+.activeBox span {
+  gap: 10px;
+  padding-top: 10px;
+}
+.emptyStudents{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 10px;
+}

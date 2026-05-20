@@ -1,5 +1,5 @@
 import "./LandingRoom.css";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { MdDone } from "react-icons/md";
 import { FaRegCopy } from "react-icons/fa";
 import { getRoomApi } from "../../../api/roomApi";
@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 const LandingRoom = () => {
   const [copied, setCopied] = useState(false);
-
+const navigate = useNavigate();
   const handleCopy = async () => {
     await navigator.clipboard.writeText(room?.roomCode);
     setCopied(true);
@@ -20,6 +20,9 @@ const LandingRoom = () => {
       try {
         const data = await getRoomApi(roomCode);
         setRoom(data?.data);
+          setTimeout(() => {
+        navigate(`/teacher/${roomCode}`);
+      }, 3000);
       } catch (error) {
         console.error(error);
       }
@@ -28,7 +31,7 @@ const LandingRoom = () => {
     if (roomCode) {
       fetchRoom();
     }
-  }, [roomCode]);
+  }, [roomCode,navigate]);
   return (
     <div className="home">
       {/* VIDEO */}

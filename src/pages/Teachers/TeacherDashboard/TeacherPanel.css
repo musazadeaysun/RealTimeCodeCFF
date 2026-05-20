@@ -1,0 +1,29 @@
+.rightPanel {
+  background-color: black;
+  width: 75%;
+}
+.rightPanel h2{
+    font-size: 28px;
+    line-height: 1.4;
+    padding: 10px;
+}
+.emptyState{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex-direction: column;
+    gap: 20px;
+}
+.iconNoUsers{
+    font-size: 80px;
+    color: gray;
+    background-color: rgba(128, 128, 128, 0.456);
+    border: 2px solid #0e28f174;
+    border-radius: 50%;
+    padding: 10px;
+}
+.emptyStateMessage{
+    font-size: 14px;
+    color: gray;
+}
