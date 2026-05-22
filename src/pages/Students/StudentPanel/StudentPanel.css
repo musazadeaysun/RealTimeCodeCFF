@@ -1,67 +1,179 @@
-.studentPanel{
-    background-color: black;
-    /* padding: 10px; */
-}
-.studentPanelHeader{
-    /* margin: 10px; */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding:5px 25px;
-    background-color: rgb(30, 30, 30);
-    border-bottom: 1px solid white;
+.studentPanel {
+  background-color: black;
+  /* height: 100%; */
+  width: auto; 
+   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  /* padding: 10px; */
 }
 
-.panelHeaderLeft{
-   /* background-color: rgb(44, 44, 44); */
-   height: 4vw;
-   padding: 10px;
-   display: flex;
-   flex-direction: row;
-   gap: 10px;
+.studentPanelHeader {
+  /* margin: 10px; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 25px;
+  background-color: #1f2937;
+  border-bottom: 1px solid white;
 }
-.panelHeaderLeft p{
-    background-color: rgba(111, 111, 111, 0.3);
-    border: 2px solid #76767674;
-    border-radius: 5px;
-    width: 110px;
-    color: white;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
+
+.panelHeaderLeft {
+  /* background-color: rgb(44, 44, 44); */
+  height: 4vw;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
 }
-.panelHeaderLeft p span{
+.panelHeaderLeft p {
+  background-color: rgba(111, 111, 111, 0.3);
+  border: 2px solid #76767674;
+  border-radius: 5px;
+  width: 110px;
   color: white;
-    font-weight: 700;
-    font-size: 16px;
-}   
-button {
-    background-color: blue;
-    border: 2px solid #0e28f174;
-    height: 2vw;
-    width: 60px;
-    display: flex;
-    color: white;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    border-radius: 8px;
-    padding: 10px;
-    display: flex;
-    flex-direction: row;
-    cursor: pointer;
-    gap: 10px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
 }
-.panelHeaderRight{
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.panelHeaderLeft p span {
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
 }
-.iconLogOut{
-    font-size: 22px;
-    color: white;
-    cursor: pointer;
-   /* padding-right:20px ; */
+.runButton {
+  background-color: blue;
+  border: 2px solid #0e28f174;
+  height: 2.5vw;
+  width: 90px;
+  display: flex;
+  color: white;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+  gap: 10px;
+}
+.runButton:hover {
+  background-color: rgb(10, 10, 153);
+}
+.panelHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.iconLogOut {
+  font-size: 22px;
+  color: white;
+  cursor: pointer;
+}
+.iconRun {
+  font-size: 22px;
+}
+.main {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  height: 100%;
+}
+
+.editorSide {
+  width: 50%;
+  border-right: 1px solid #1f2937;
+  display: flex;
+  flex-direction: column;
+ height: 100%;
+}
+
+.terminalSide {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+}
+
+.editor {
+  height: 34px;
+  border-bottom: 1px solid #1f2937;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  color: #9ca3af;
+  background: #111827;
+  width: auto;
+  font-size: 14px;
+}
+textarea {
+  flex: 1;
+  background: #000;
+  color: white;
+  border: none;
+  outline: none;
+  resize: none;
+  padding: 18px;
+  font-size: 16px;
+  line-height: 1.6;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+
+.terminal {
+  flex: 1;
+  background: #000;
+  padding: 18px;
+  overflow: auto;
+}
+
+.terminal h3 {
+  color: #3b82f6;
+  margin-bottom: 10px;
+}
+
+.time {
+  color: #6b7280;
+  margin-top: 12px;
+}
+
+.clearButton {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  font-size: 12px;
+}
+.sectionHeader {
+  height: 34px;
+  border-bottom: 1px solid #1f2937;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  color: #9ca3af;
+  background: #111827;
+  font-size: 14px;
+}
+.lineNumbers {
+  color: #6b7280;
+  padding: 18px 10px;
+  text-align: left;
+  user-select: none;
+  font-size: 16px;
+  line-height: 1.6;
+  border-right: 1px solid #1f2937;
+  overflow: hidden;
+}
+
+.editorWrapper {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
 }
