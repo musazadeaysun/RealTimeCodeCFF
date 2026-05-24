@@ -1,6 +1,9 @@
-.rightPanel {
-  background-color: black;
+/* .rightPanel {
   width: 75%;
+  background-color: black;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 .rightPanel h2{
     font-size: 28px;
@@ -26,4 +29,302 @@
 .emptyStateMessage{
     font-size: 14px;
     color: gray;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+ */
+/* TeacherPanel.css */
+
+.rightPanel {
+  flex: 1;
+  padding: 24px;
+  min-height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #0f0f17;
+}
+
+/* ── WELCOME ─────────────────────────────────── */
+.welcomeHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.welcomeHeader h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 6px 0;
+}
+
+.welcomeHeader p {
+  color: #888;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.onlineBadge {
+  background: #0d1f0d;
+  color: #4caf50;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  border: 1px solid #1e3d1e;
+}
+
+/* ── STUDENTS GRID ───────────────────────────── */
+.studentsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 14px;
+}
+
+.studentGridCard {
+  background: #13131f;
+  border: 1px solid #2a2a3e;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.studentGridCard:hover {
+  border-color: #4a90e2;
+  background: #1a1a2e;
+}
+
+.studentGridCard p {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #fff;
+  margin: 0 0 2px 0;
+}
+
+.studentGridCard small {
+  color: #888;
+  font-size: 0.75rem;
+}
+
+.noStudents {
+  color: #555;
+  font-size: 0.85rem;
+}
+
+/* ── AVATAR ──────────────────────────────────── */
+.gridAvatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #4a90e2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+/* ── STUDENT VIEW ────────────────────────────── */
+.studentView {
+  height: 100%;
+}
+
+.studentViewHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #13131f;
+  border: 1px solid #2a2a3e;
+  border-radius: 12px;
+  padding: 12px 16px;
+}
+
+.studentViewLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.studentViewLeft h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 2px 0;
+  color: #fff;
+}
+
+small.online {
+  color: #4caf50;
+  font-size: 0.78rem;
+}
+
+small.offline {
+  color: #888;
+  font-size: 0.78rem;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+
+.backButton:hover {
+  color: #fff;
+}
+
+.langBadge {
+  background: #0d1a2e;
+  color: #4a90e2;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: bold;
+  border: 1px solid #1a3a5e;
+}
+
+/* ── CODE VIEWER ─────────────────────────────── */
+.codeViewBox {
+  background: #0a0a0a;
+  border: 1px solid #2a2a2a;
+  border-radius: 10px;
+  overflow: hidden;
+  flex: 1;
+  min-height: 0;
+}
+
+.codeViewHeader {
+  padding: 8px 16px;
+  background: #141414;
+  border-bottom: 1px solid #2a2a2a;
+  font-size: 0.78rem;
+  color: #888;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.codeViewBody {
+  display: flex;
+  max-height: 340px;
+  overflow-y: auto;
+}
+
+.codeViewBody::-webkit-scrollbar {
+  width: 6px;
+}
+
+.codeViewBody::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+.codeViewBody::-webkit-scrollbar-thumb {
+  background: #2a2a2a;
+  border-radius: 3px;
+}
+
+.codeLineNumbers {
+  padding: 12px 10px;
+  background: #0f0f0f;
+  color: #444;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  user-select: none;
+  min-width: 40px;
+  text-align: right;
+  font-family: "Fira Code", "Courier New", monospace;
+  border-right: 1px solid #1a1a1a;
+}
+
+.codeContent {
+  padding: 12px 16px;
+  color: #e0e0e0;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  white-space: pre;
+  overflow-x: auto;
+  flex: 1;
+  margin: 0;
+  font-family: "Fira Code", "Courier New", monospace;
+}
+
+/* ── TERMINAL ────────────────────────────────── */
+.terminalViewBox {
+  background: #0a0a0a;
+  border: 1px solid #2a2a2a;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.terminalViewHeader {
+  padding: 8px 16px;
+  background: #141414;
+  border-bottom: 1px solid #2a2a2a;
+  font-size: 0.78rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.terminalViewBody {
+  padding: 14px 16px;
+  min-height: 100px;
+  max-height: 200px;
+  overflow-y: auto;
+  font-family: "Fira Code", "Courier New", monospace;
+}
+
+.terminalViewBody::-webkit-scrollbar {
+  width: 6px;
+}
+
+.terminalViewBody::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+.terminalViewBody::-webkit-scrollbar-thumb {
+  background: #2a2a2a;
+  border-radius: 3px;
+}
+
+.terminalEmpty {
+  color: #444;
+  font-size: 0.82rem;
+  font-style: italic;
+}
+
+.terminalViewBody pre {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
 }

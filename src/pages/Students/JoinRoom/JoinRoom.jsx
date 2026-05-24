@@ -10,38 +10,44 @@ const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
- const handleJoinRoom = async () => {
+const handleJoinRoom = async () => {
   if (!roomCode.trim() || !studentName.trim()) {
     setError("Bütün xanaları doldurun");
     return;
   }
-if (studentName.trim().length < 3) {
-  setError("Ad minimum 3 simvol olmalıdır");
-  return;
-}
 
- if (!/^\d{6}$/.test(roomCode)) {
+  if (studentName.trim().length < 3) {
+    setError("Ad minimum 3 simvol olmalıdır");
+    return;
+  }
+  if (!/^\d{6}$/.test(roomCode)) {
     setError("Otaq kodu 6 rəqəmli olmalıdır");
     return;
-  } 
+  }
+
   try {
     setError("");
 
-    await joinRoomApi(roomCode, studentName);
+    const data = await joinRoomApi(roomCode, studentName);
+
+    // 🔥 IMPORTANT: backend response
+    const participant = data.data;
+
+    localStorage.setItem("participantId", participant.id);
+    localStorage.setItem("studentName", participant.nickname);
+    localStorage.setItem("roomCode", participant.roomCode);
 
     navigate(`/room/${roomCode}`, {
       state: {
         studentName,
+        participantId: participant.id,
       },
     });
-  localStorage.setItem("studentName", studentName);
-    localStorage.setItem("roomCode", roomCode);
-    localStorage.setItem("participant", JSON.stringify(data.data));
-  }catch (err) {
-  setError("Otaq kodu yanlışdır" || "Otağa qoşulmaq mümkün olmadı");
-}
-};
 
+  } catch (err) {
+    setError(err.message || "Otağa qoşulmaq mümkün olmadı");
+  }
+};
 
 
 

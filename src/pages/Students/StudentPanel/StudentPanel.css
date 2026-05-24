@@ -1,8 +1,8 @@
 .studentPanel {
   background-color: black;
   /* height: 100%; */
-  width: auto; 
-   height: 100vh;
+  width: auto;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   /* padding: 10px; */
@@ -20,23 +20,32 @@
 
 .panelHeaderLeft {
   /* background-color: rgb(44, 44, 44); */
-  height: 4vw;
+  height: auto;
   padding: 10px;
   display: flex;
   flex-direction: row;
   gap: 10px;
 }
 .panelHeaderLeft p {
-  background-color: rgba(111, 111, 111, 0.3);
-  border: 2px solid #76767674;
-  border-radius: 5px;
-  width: 110px;
-  color: white;
-  font-size: 14px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 5px;
+  gap: 6px;
+
+  padding: 6px 12px;
+  border-radius: 999px;
+
+  background: #111827;
+  border: 1px solid #374151;
+
+  color: #d1d5db;
+  font-size: 14px;
+
+  transition: 0.3s;
+}
+
+.panelHeaderLeft p:hover {
+  border-color: #3b82f6;
+  transform: translateY(-2px);
 }
 .panelHeaderLeft p span {
   color: white;
@@ -88,7 +97,7 @@
   border-right: 1px solid #1f2937;
   display: flex;
   flex-direction: column;
- height: 100%;
+  height: 100%;
 }
 
 .terminalSide {
@@ -96,7 +105,6 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-
 }
 
 .editor {
@@ -144,12 +152,23 @@ textarea {
 }
 
 .clearButton {
-  background: none;
-  border: none;
-  color: #9ca3af;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  background: #1f2937;
+  border: 1px solid #374151;
+  color: #d1d5db;
+
+  padding: 6px 10px;
+  border-radius: 8px;
+
+  font-size: 13px;
   cursor: pointer;
-  font-size: 12px;
+
+  transition: 0.2s;
 }
+
 .sectionHeader {
   height: 34px;
   border-bottom: 1px solid #1f2937;
@@ -176,4 +195,48 @@ textarea {
   display: flex;
   height: 100%;
   overflow: hidden;
+}
+@media (max-width: 1024px) {
+  .panelHeaderLeft {
+    flex-wrap: wrap;
+    height: auto;
+  }
+
+  .main {
+    flex-direction: column;
+  }
+
+  .editorSide,
+  .terminalSide {
+    width: 100%;
+    height: 50%;
+  }
+}
+@media (max-width: 600px) {
+  .studentPanelHeader {
+    flex-direction: row;
+    
+  }
+  .panelHeaderLeft {
+    flex-direction: column;
+  }
+  .runButton {
+    width: 100%;
+    height: 40px;
+    justify-content: center;
+  }
+  .editorSide,
+  .terminalSide {
+    width: 100%;
+    height: 50%;
+  }
+
+  textarea {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .terminal {
+    padding: 12px;
+  }
 }

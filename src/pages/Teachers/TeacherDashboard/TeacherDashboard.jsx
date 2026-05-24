@@ -1,67 +1,29 @@
 import "./TeacherDashboard.css";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getRoomApi, getRoomStudents } from "../../../api/roomApi";
 import { MdDone } from "react-icons/md";
 import { FaRegCopy, FaUsers } from "react-icons/fa";
-import { stompClient } from "../../../socket/socket";
+import { createStompClient } from "../../../socket/socket";
 import TeacherPanel from "./TeacherPanel";
+
 const TeacherDashboard = () => {
   const { roomCode } = useParams();
+  const clientRef = useRef(null);
 
   const [copied, setCopied] = useState(false);
   const [room, setRoom] = useState(null);
   const [students, setStudents] = useState([]);
   const [search, setSearch] = useState("");
+  const [selectedStudentId, setSelectedStudentId] = useState(null);
 
+  const selectedStudent = students.find(
+    (s) => Number(s.id) === Number(selectedStudentId)
+  );
 
-
-useEffect(() => {
-  if (!roomCode) return;
-
-  stompClient.onConnect = () => {
-    console.log("STOMP connected");
-
-    stompClient.subscribe(
-      `/topic/room/${roomCode}/participants`,
-      (message) => {
-        const data = JSON.parse(message.body);
-
-        setStudents((prev) => {
-          const exists = prev.find(
-            (s) => s.id === data.participantId
-          );
-
-          if (exists) {
-            return prev.map((student) =>
-              student.id === data.participantId
-                ? { ...student, online: data.online }
-                : student
-            );
-          }
-
-          return [
-            ...prev,
-            {
-              id: data.participantId,
-              nickname: data.nickname,
-              role: "STUDENT",
-              online: data.online,
-            },
-          ];
-        });
-      }
-    );
-  };
-
-  stompClient.activate();
-
-  return () => {
-    stompClient.deactivate();
-  };
-}, [roomCode]);
   // ROOM LOAD
   useEffect(() => {
+    if (!roomCode) return;
     const fetchRoom = async () => {
       try {
         const data = await getRoomApi(roomCode);
@@ -70,38 +32,115 @@ useEffect(() => {
         console.error(error);
       }
     };
-
-    if (roomCode) fetchRoom();
+    fetchRoom();
   }, [roomCode]);
 
-  // STUDENTS LOAD
+  // STOMP + STUDENTS
   useEffect(() => {
-    const fetchStudents = async () => {
+    if (!roomCode) return;
+
+    const client = createStompClient();
+    clientRef.current = client;
+
+    client.onConnect = async () => {
+      console.log("✅ STOMP connected");
+
+      // 1. REST-dən şagirdləri çək
+      let studentList = [];
       try {
         const data = await getRoomStudents(roomCode);
-        setStudents(data?.data || []);
-      } catch (error) {
-        console.error(error);
+        studentList = (data?.data || [])
+          .filter((p) => p.role === "STUDENT")
+          .map((p) => ({ ...p, id: Number(p.id), online: false }));
+        setStudents(studentList);
+        console.log("📦 students loaded:", studentList);
+      } catch (err) {
+        console.error("❌ students fetch error:", err);
+      }
+
+      // 2. Online status dəyişikliyi dinlə
+      client.subscribe(
+        `/topic/room/${roomCode}/participants`,
+        (message) => {
+          const data = JSON.parse(message.body);
+          console.log("📡 participants event:", data);
+
+          setStudents((prev) => {
+            const exists = prev.find(
+              (s) => Number(s.id) === Number(data.participantId)
+            );
+
+            if (exists) {
+              return prev.map((s) =>
+                Number(s.id) === Number(data.participantId)
+                  ? { ...s, online: data.online }
+                  : s
+              );
+            }
+
+            return [
+              ...prev,
+              {
+                id: Number(data.participantId),
+                nickname: data.nickname,
+                role: "STUDENT",
+                online: data.online,
+              },
+            ];
+          });
+        }
+      );
+
+      // 3. Mövcud şagirdlər üçün watch et → online statusu al
+      for (const student of studentList) {
+        client.subscribe(
+          `/user/queue/watch/${student.id}`,
+          (message) => {
+            const data = JSON.parse(message.body);
+            console.log("👁 watch response:", data);
+            setStudents((prev) =>
+              prev.map((s) =>
+                Number(s.id) === Number(data.participantId)
+                  ? { ...s, online: true }
+                  : s
+              )
+            );
+          }
+        );
+
+        client.publish({
+          destination: `/app/watch/${roomCode}/${student.id}`,
+          body: "",
+        });
       }
     };
 
-    if (roomCode) fetchStudents();
+    client.onStompError = (frame) => {
+      console.error("💥 STOMP ERROR:", frame);
+    };
+
+    client.onDisconnect = () => {
+      console.log("🔌 STOMP disconnected");
+    };
+
+    client.activate();
+
+    return () => {
+      client.deactivate();
+    };
   }, [roomCode]);
 
   // COPY
   const handleCopy = async () => {
     await navigator.clipboard.writeText(roomCode);
     setCopied(true);
-
     setTimeout(() => setCopied(false), 2000);
   };
 
   // FILTERS
-  const studentList = students.filter((s) => s.role === "STUDENT");
-
-  const activeStudents = studentList.filter((s) => s.online === true);
-
-  const filteredStudents = studentList.filter((s) =>
+  const allStudents = students.filter((s) => s.role === "STUDENT");
+  const activeStudents = allStudents.filter((s) => s.online === true);
+  const filteredStudents = allStudents.filter((s) =>
     s.nickname.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -122,7 +161,6 @@ useEffect(() => {
             <p>Room Code:</p>
             <h2>{roomCode}</h2>
           </div>
-
           {copied ? (
             <MdDone className="copyCode" />
           ) : (
@@ -132,11 +170,10 @@ useEffect(() => {
 
         {/* ACTIVE BOX */}
         <div className="activeBox">
-            <FaUsers className="usersIcon"/>
-            <span>
-                 {studentList.length} şagird  / {activeStudents.length} aktiv
-            </span>
-       
+          <FaUsers className="usersIcon" />
+          <span>
+            {allStudents.length} şagird / {activeStudents.length} aktiv
+          </span>
         </div>
 
         {/* SEARCH */}
@@ -149,36 +186,47 @@ useEffect(() => {
         />
 
         {/* STUDENT LIST */}
-       {/* STUDENT LIST */}
-<div className="studentList">
-  {filteredStudents.length === 0 ? (
-    <div className="emptyStudents">
-      Bu otaqda  heç bir şagird yoxdur
-    </div>
-  ) : (
-    filteredStudents.map((student) => (
-      <div key={student.id} className="studentCard">
-
-        <div className="avatar">
-          {student.nickname.slice(0, 2).toUpperCase()}
+        <div className="studentList">
+          {filteredStudents.length === 0 ? (
+            <div className="emptyStudents">
+              Bu otaqda heç bir şagird yoxdur
+            </div>
+          ) : (
+            filteredStudents.map((student) => (
+              <div
+                key={student.id}
+                className={`studentCard ${
+                  Number(selectedStudentId) === Number(student.id)
+                    ? "activeCard"
+                    : ""
+                }`}
+                onClick={() => setSelectedStudentId(Number(student.id))}
+              >
+                <div className="avatar">
+                  {student.nickname.slice(0, 2).toUpperCase()}
+                </div>
+                <div>
+                  <p>{student.nickname}</p>
+                  <p className={student.online ? "online" : "offline"}>
+                    {student.online ? "● Online" : "● Offline"}
+                  </p>
+                </div>
+              </div>
+            ))
+          )}
         </div>
-
-        <div>
-          <p>{student.nickname}</p>
-          <small>
-            {student.online ? " Online" : " Offline"}
-          </small>
-        </div>
-
-      </div>
-    ))
-  )}
-</div>
 
       </div>
 
       {/* RIGHT PANEL */}
- <TeacherPanel activeStudents={activeStudents} />
+      <TeacherPanel
+        activeStudents={activeStudents}
+        selectedStudent={selectedStudent}
+        onBack={() => setSelectedStudentId(null)}
+        roomCode={roomCode}
+        client={clientRef}
+      />
+
     </div>
   );
 };
