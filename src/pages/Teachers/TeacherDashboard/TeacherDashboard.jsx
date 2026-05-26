@@ -43,7 +43,7 @@ const TeacherDashboard = () => {
     clientRef.current = client;
 
     client.onConnect = async () => {
-      console.log("✅ STOMP connected");
+      console.log(" STOMP connected");
 
       // 1. REST-dən şagirdləri çək
       let studentList = [];
@@ -51,11 +51,11 @@ const TeacherDashboard = () => {
         const data = await getRoomStudents(roomCode);
         studentList = (data?.data || [])
           .filter((p) => p.role === "STUDENT")
-          .map((p) => ({ ...p, id: Number(p.id), online: false }));
+          .map((p) => ({ ...p, id: Number(p.id) }));
         setStudents(studentList);
-        console.log("📦 students loaded:", studentList);
+        console.log("students loaded:", studentList);
       } catch (err) {
-        console.error("❌ students fetch error:", err);
+        console.error("students fetch error:", err);
       }
 
       // 2. Online status dəyişikliyi dinlə
@@ -63,20 +63,12 @@ const TeacherDashboard = () => {
         `/topic/room/${roomCode}/participants`,
         (message) => {
           const data = JSON.parse(message.body);
-          console.log("📡 participants event:", data);
-
+          console.log(" participants event:", data);
           setStudents((prev) => {
             const exists = prev.find(
               (s) => Number(s.id) === Number(data.participantId)
             );
-
-            if (exists) {
-              return prev.map((s) =>
-                Number(s.id) === Number(data.participantId)
-                  ? { ...s, online: data.online }
-                  : s
-              );
-            }
+  if (exists) return prev;
 
             return [
               ...prev,
@@ -84,7 +76,6 @@ const TeacherDashboard = () => {
                 id: Number(data.participantId),
                 nickname: data.nickname,
                 role: "STUDENT",
-                online: data.online,
               },
             ];
           });
@@ -97,14 +88,7 @@ const TeacherDashboard = () => {
           `/user/queue/watch/${student.id}`,
           (message) => {
             const data = JSON.parse(message.body);
-            console.log("👁 watch response:", data);
-            setStudents((prev) =>
-              prev.map((s) =>
-                Number(s.id) === Number(data.participantId)
-                  ? { ...s, online: true }
-                  : s
-              )
-            );
+            console.log(" watch response:", data);
           }
         );
 
@@ -116,11 +100,11 @@ const TeacherDashboard = () => {
     };
 
     client.onStompError = (frame) => {
-      console.error("💥 STOMP ERROR:", frame);
+      console.error(" STOMP ERROR:", frame);
     };
 
     client.onDisconnect = () => {
-      console.log("🔌 STOMP disconnected");
+      console.log(" STOMP disconnected");
     };
 
     client.activate();
@@ -139,7 +123,7 @@ const TeacherDashboard = () => {
 
   // FILTERS
   const allStudents = students.filter((s) => s.role === "STUDENT");
-  const activeStudents = allStudents.filter((s) => s.online === true);
+const activeStudents = allStudents;
   const filteredStudents = allStudents.filter((s) =>
     s.nickname.toLowerCase().includes(search.toLowerCase())
   );
@@ -172,7 +156,7 @@ const TeacherDashboard = () => {
         <div className="activeBox">
           <FaUsers className="usersIcon" />
           <span>
-            {allStudents.length} şagird / {activeStudents.length} aktiv
+            {allStudents.length} şagird
           </span>
         </div>
 
@@ -207,9 +191,6 @@ const TeacherDashboard = () => {
                 </div>
                 <div>
                   <p>{student.nickname}</p>
-                  <p className={student.online ? "online" : "offline"}>
-                    {student.online ? "● Online" : "● Offline"}
-                  </p>
                 </div>
               </div>
             ))

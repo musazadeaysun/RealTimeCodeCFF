@@ -2,17 +2,18 @@
 .leftPanel {
   background-color: rgb(20, 19, 19);
   width: 25%;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-    overflow-y: auto;
+  height: 100vh;
+  position: fixed;
+  left:0;
+  top: 0;
+  overflow-y: auto;
 }
 .dashboard {
   display: flex;
   flex-direction: row;
   min-height: 100vh;
   color: white;
-  align-items: stretch;
+overflow: hidden;
 }
 .panelContent {
   display: flex;
@@ -127,15 +128,56 @@
   border-color: rgba(37, 99, 235, 0.4);
   transform: translateY(-2px);
 }
-.online {
-  color: #22c55e;
-  font-weight: 600;
-  font-size: 12px;
-}
+@media (max-width: 1024px) {
+  .leftPanel {
+    width: 30%;
+  }
 
-.offline {
-  color: #ef4444;
-  font-weight: 600;
-  font-size: 12px;
-}
+  .rightPanel {
+    margin-left: 30%;
+    width: 70%;
+  }
 
+  .editButton,
+  .saveButton {
+    margin-left: auto;
+  }
+
+  .codeLineNumbers {
+    min-width: 40px;
+  }
+}
+@media (max-width: 768px) {
+
+  .dashboard {
+    flex-direction: column;
+  }
+
+  .leftPanel {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+
+  .rightPanel {
+    margin-left: 0;
+    width: 100%;
+    height: auto;
+  }
+
+  .codeLineNumbers {
+    display: none;
+  }
+
+  .codeEditArea {
+    min-height: 300px;
+    font-size: 14px;
+  }
+  .editButton,
+  .saveButton {
+    margin-left: 0;
+  }
+  .terminalViewBox {
+    margin-top: 10px;
+  }
+}

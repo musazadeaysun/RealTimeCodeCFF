@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./TeacherPanel.css";
-import { FaArrowLeft, FaEdit, FaCheck, FaTimes } from "react-icons/fa";
+import { FaArrowLeft, FaEdit, FaCheck, FaTimes, FaUserSlash, FaUsers, FaSave, FaRegEdit } from "react-icons/fa";
 
 const TeacherPanel = ({ activeStudents, selectedStudent, onBack, roomCode, client }) => {
   const [studentCode, setStudentCode] = useState("");
@@ -99,29 +99,29 @@ const TeacherPanel = ({ activeStudents, selectedStudent, onBack, roomCode, clien
       <div className="rightPanel">
         <div className="welcomeHeader">
           <div>
-            <h2>Xoş gəlmisiniz, Müəllim 👋</h2>
-            <p>Hazırda otaqda olan aktiv şagirdlərin siyahısı</p>
+            <h2>Xoş gəlmisiniz, Müəllim</h2>
           </div>
-          <span className="onlineBadge">● {activeStudents.length} Online</span>
         </div>
 
         <div className="studentsGrid">
-          {activeStudents.length === 0 ? (
-            <p className="noStudents">Hələ heç bir şagird qoşulmayıb...</p>
-          ) : (
-            activeStudents.map((student) => (
-              <div key={student.id} className="studentGridCard">
-                <div className="gridAvatar">
-                  {student.nickname.slice(0, 2).toUpperCase()}
-                </div>
-                <div>
-                  <p>{student.nickname}</p>
-                  <small>⊙ İndi aktivdir</small>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
+  {activeStudents.length === 0 ? (
+    <div className="noStudents">
+      <FaUserSlash className="noStudentsIcon" />
+  <h3>Hələ heç bir şagird qoşulmayıb</h3>
+  <p>
+    Şagirdlərin otağa qoşulmasını gözləyin.
+  </p>
+</div>
+  ) : (
+    <>
+      <div className="studentsInfo">
+        <FaUsers className="studentsIcon" />
+      <h3>Hazırda otaqda {activeStudents.length} tələbə var. </h3>  
+       <p> Kodlarına baxmaq üçün tələbənin üzərinə klik edin.</p>
+      </div>
+    </>
+  )}
+</div>
       </div>
     );
   }
@@ -141,9 +141,7 @@ const TeacherPanel = ({ activeStudents, selectedStudent, onBack, roomCode, clien
           </div>
           <div>
             <h3>{selectedStudent.nickname}</h3>
-            <small className={selectedStudent.online ? "online" : "offline"}>
-              ● {selectedStudent.online ? "Online" : "Offline"}
-            </small>
+           
           </div>
         </div>
         <span className="langBadge">PYTHON</span>
@@ -156,7 +154,7 @@ const TeacherPanel = ({ activeStudents, selectedStudent, onBack, roomCode, clien
 
           {/* Edit / Save / Cancel buttons */}
           {!isEditing ? (
-            <button
+            <p
               className="editButton"
               onClick={() => {
                 setEditCode(studentCode);
@@ -164,15 +162,12 @@ const TeacherPanel = ({ activeStudents, selectedStudent, onBack, roomCode, clien
               }}
             >
               <FaEdit /> Edit
-            </button>
+            </p>
           ) : (
             <div className="editActions">
-              <button className="saveButton" onClick={handleSendEdit}>
-                <FaCheck /> Göndər
-              </button>
-              <button className="cancelButton" onClick={handleCancelEdit}>
-                <FaTimes /> Ləğv et
-              </button>
+              <p className="saveButton" onClick={handleSendEdit}>
+                <FaSave /> Save
+              </p>
             </div>
           )}
         </div>
@@ -194,9 +189,9 @@ const TeacherPanel = ({ activeStudents, selectedStudent, onBack, roomCode, clien
               spellCheck={false}
             />
           ) : (
-            <pre className="codeContent">
+            <p className="codeContent">
               {studentCode || "// Şagird hələ kod yazmayıb və ya Məlumat yüklənir..."}
-            </pre>
+            </p>
           )}
         </div>
       </div>
@@ -204,7 +199,7 @@ const TeacherPanel = ({ activeStudents, selectedStudent, onBack, roomCode, clien
       {/* Terminal */}
       <div className="terminalViewBox">
         <div className="terminalViewHeader">
-          <span>TERMİNAL — {selectedStudent.nickname.toUpperCase()}</span>
+          <span>TERMİNAL — {selectedStudent.nickname}</span>
         </div>
         <div className="terminalViewBody">
           {!studentOutput && !studentError && (
