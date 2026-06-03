@@ -1,7 +1,7 @@
 import "./TeacherDashboard.css";
 import { useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { getRoomApi, getRoomStudents } from "../../../api/roomApi";
+import { getRoomApi, getRoomStudents} from "../../../api/roomApi";
 import { MdDone } from "react-icons/md";
 import { FaRegCopy, FaUsers } from "react-icons/fa";
 import { createStompClient } from "../../../socket/socket";
@@ -18,7 +18,7 @@ const TeacherDashboard = () => {
   const [selectedStudentId, setSelectedStudentId] = useState(null);
 
   const selectedStudent = students.find(
-    (s) => Number(s.id) === Number(selectedStudentId)
+    (s) => Number(s.id) === Number(selectedStudentId),
   );
 
   // ROOM LOAD
@@ -59,38 +59,32 @@ const TeacherDashboard = () => {
       }
 
       // 2. Online status dəyişikliyi dinlə
-      client.subscribe(
-        `/topic/room/${roomCode}/participants`,
-        (message) => {
-          const data = JSON.parse(message.body);
-          console.log(" participants event:", data);
-          setStudents((prev) => {
-            const exists = prev.find(
-              (s) => Number(s.id) === Number(data.participantId)
-            );
-  if (exists) return prev;
+      client.subscribe(`/topic/room/${roomCode}/participants`, (message) => {
+        const data = JSON.parse(message.body);
+        console.log(" participants event:", data);
+        setStudents((prev) => {
+          const exists = prev.find(
+            (s) => Number(s.id) === Number(data.participantId),
+          );
+          if (exists) return prev;
 
-            return [
-              ...prev,
-              {
-                id: Number(data.participantId),
-                nickname: data.nickname,
-                role: "STUDENT",
-              },
-            ];
-          });
-        }
-      );
+          return [
+            ...prev,
+            {
+              id: Number(data.participantId),
+              nickname: data.nickname,
+              role: "STUDENT",
+            },
+          ];
+        });
+      });
 
       // 3. Mövcud şagirdlər üçün watch et → online statusu al
       for (const student of studentList) {
-        client.subscribe(
-          `/user/queue/watch/${student.id}`,
-          (message) => {
-            const data = JSON.parse(message.body);
-            console.log(" watch response:", data);
-          }
-        );
+        client.subscribe(`/user/queue/watch/${student.id}`, (message) => {
+          const data = JSON.parse(message.body);
+          console.log(" watch response:", data);
+        });
 
         client.publish({
           destination: `/app/watch/${roomCode}/${student.id}`,
@@ -123,17 +117,15 @@ const TeacherDashboard = () => {
 
   // FILTERS
   const allStudents = students.filter((s) => s.role === "STUDENT");
-const activeStudents = allStudents;
+  const activeStudents = allStudents;
   const filteredStudents = allStudents.filter((s) =>
-    s.nickname.toLowerCase().includes(search.toLowerCase())
+    s.nickname.toLowerCase().includes(search.toLowerCase()),
   );
 
   return (
     <div className="dashboard">
-
       {/* LEFT PANEL */}
       <div className="leftPanel">
-
         <div className="panelContent">
           <h2>Teacher Dashboard</h2>
           <p>({room?.language})</p>
@@ -155,9 +147,7 @@ const activeStudents = allStudents;
         {/* ACTIVE BOX */}
         <div className="activeBox">
           <FaUsers className="usersIcon" />
-          <span>
-            {allStudents.length} şagird
-          </span>
+          <span>{allStudents.length} şagird</span>
         </div>
 
         {/* SEARCH */}
@@ -172,9 +162,7 @@ const activeStudents = allStudents;
         {/* STUDENT LIST */}
         <div className="studentList">
           {filteredStudents.length === 0 ? (
-            <div className="emptyStudents">
-              Bu otaqda heç bir şagird yoxdur
-            </div>
+            <div className="emptyStudents">Bu otaqda heç bir şagird yoxdur</div>
           ) : (
             filteredStudents.map((student) => (
               <div
@@ -196,7 +184,6 @@ const activeStudents = allStudents;
             ))
           )}
         </div>
-
       </div>
 
       {/* RIGHT PANEL */}
@@ -207,7 +194,6 @@ const activeStudents = allStudents;
         roomCode={roomCode}
         client={clientRef}
       />
-
     </div>
   );
 };

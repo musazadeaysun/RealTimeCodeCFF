@@ -30,7 +30,7 @@ const StudentPanel = () => {
     clientRef.current = client;
 
     client.onConnect = () => {
-      console.log("✅ Student STOMP connected");
+      console.log("Student STOMP connected");
 
       // Müəllimin düzəlişlərini dinlə
       client.subscribe(

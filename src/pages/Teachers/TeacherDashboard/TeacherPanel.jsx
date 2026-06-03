@@ -19,17 +19,18 @@ const TeacherPanel = ({ activeStudents, selectedStudent, onBack, roomCode, clien
     setStudentError("");
     setIsEditing(false);
 
-    // 1. Canlı kod stream
-    const codeSub = stompClient.subscribe(
-      `/topic/room/${roomCode}/participant/${selectedStudent.id}`,
-      (message) => {
-        const code =message.body || "";
-        if (!isEditing) {
-          setEditCode(message.body || "");
-        }
-      }
-    );
+const codeSub = stompClient.subscribe(
+  `/topic/room/${roomCode}/participant/${selectedStudent.id}`,
+  (message) => {
+    const data = JSON.parse(message.body);
 
+    setStudentCode(data.code || "");
+
+    if (!isEditing) {
+      setEditCode(data.code || "");
+    }
+  }
+);
     // 2. Run nəticəsi
     const execSub = stompClient.subscribe(
       `/topic/room/${roomCode}/executions`,

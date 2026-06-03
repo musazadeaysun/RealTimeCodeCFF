@@ -4,52 +4,49 @@ import { Link, useNavigate } from "react-router-dom";
 import { joinRoomApi } from "../../../api/roomApi";
 
 const JoinRoom = () => {
-    const [roomCode, setRoomCode] = useState("");
+  const [roomCode, setRoomCode] = useState("");
   const [studentName, setStudentName] = useState("");
-const [error, setError] = useState(""); 
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
-const handleJoinRoom = async () => {
-  if (!roomCode.trim() || !studentName.trim()) {
-    setError("Bütün xanaları doldurun");
-    return;
-  }
+  const handleJoinRoom = async () => {
+    if (!roomCode.trim() || !studentName.trim()) {
+      setError("Bütün xanaları doldurun");
+      return;
+    }
 
-  if (studentName.trim().length < 3) {
-    setError("Ad minimum 3 simvol olmalıdır");
-    return;
-  }
-  if (!/^\d{6}$/.test(roomCode)) {
-    setError("Otaq kodu 6 rəqəmli olmalıdır");
-    return;
-  }
+    if (studentName.trim().length < 3) {
+      setError("Ad minimum 3 simvol olmalıdır");
+      return;
+    }
+    if (!/^\d{6}$/.test(roomCode)) {
+      setError("Otaq kodu 6 rəqəmli olmalıdır");
+      return;
+    }
 
-  try {
-    setError("");
+    try {
+      setError("");
 
-    const data = await joinRoomApi(roomCode, studentName);
+      const data = await joinRoomApi(roomCode, studentName);
 
-    // 🔥 IMPORTANT: backend response
-    const participant = data.data;
+      // 🔥 IMPORTANT: backend response
+      const participant = data.data;
 
-    localStorage.setItem("participantId", participant.id);
-    localStorage.setItem("studentName", participant.nickname);
-    localStorage.setItem("roomCode", participant.roomCode);
+      localStorage.setItem("participantId", participant.id);
+      localStorage.setItem("studentName", participant.nickname);
+      localStorage.setItem("roomCode", participant.roomCode);
 
-    navigate(`/room/${roomCode}`, {
-      state: {
-        studentName,
-        participantId: participant.id,
-      },
-    });
-
-  } catch (err) {
-    setError(err.message || "Otağa qoşulmaq mümkün olmadı");
-  }
-};
-
-
+      navigate(`/room/${roomCode}`, {
+        state: {
+          studentName,
+          participantId: participant.id,
+        },
+      });
+    } catch (err) {
+      setError(err.message || "Otağa qoşulmaq mümkün olmadı");
+    }
+  };
 
   return (
     <div className="home">
@@ -60,7 +57,6 @@ const handleJoinRoom = async () => {
 
       {/* CONTENT */}
       <div className="content">
-
         {/* TEXT */}
         <div className="text-section">
           <p className="title">
@@ -77,31 +73,35 @@ const handleJoinRoom = async () => {
 
         {/* CARDS */}
         <div className="cardsJoinRoom">
-
           <div className="card">
             <h2>Otağa Qoşul</h2>
-            <p>
-              Dərs otağına qoşulun və müəlliminizlə birlikdə kod yazın.
-            </p>
-          <form action="">
-            {error && <p className="errorText">{error}</p>}
-            <label htmlFor="roomCode">Otaq Kodu:</label> <br />
-            <input type="text" id="roomCode" value={roomCode}
-              onChange={(e) => setRoomCode(e.target.value)}/> <br />
-          <label htmlFor="studentName">Adınız:</label> <br />
-          <input type="text" id="studentName" value={studentName}
-            onChange={(e) => setStudentName(e.target.value)}/> <br />
-          </form>
-          <button className="buttonJoinRoom" onClick={handleJoinRoom}>Qoşul</button>
-
+            <p>Dərs otağına qoşulun və müəlliminizlə birlikdə kod yazın.</p>
+            <form action="">
+              {error && <p className="errorText">{error}</p>}
+              <label htmlFor="roomCode">Otaq Kodu:</label> <br />
+              <input
+                type="text"
+                id="roomCode"
+                value={roomCode}
+                onChange={(e) => setRoomCode(e.target.value)}
+              />
+              <br />
+              <label htmlFor="studentName">Adınız:</label> <br />
+              <input
+                type="text"
+                id="studentName"
+                value={studentName}
+                onChange={(e) => setStudentName(e.target.value)}
+              />
+              <br />
+            </form>
+            <button className="buttonJoinRoom" onClick={handleJoinRoom}>
+              Qoşul
+            </button>
           </div>
-          
-          </div>
-
         </div>
-
       </div>
-
+    </div>
   );
 };
 
