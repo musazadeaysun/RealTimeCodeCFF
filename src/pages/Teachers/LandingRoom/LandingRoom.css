@@ -5,11 +5,10 @@
   font-weight: bold;
 }
 
-/* CARD */
 .cardsRoomCode {
   margin-top: 30px;
   width: 50%;
-  max-width: 350px;
+  max-width: 390px;
 }
 
 .complate {
@@ -18,7 +17,7 @@
   gap: 15px;
 }
 .iconDone {
-  color: #4bb543;
+  color: #8a9989;
   font-size: 30px;
   border-radius: 50%;
   border: 2px solid #4bb543;
@@ -26,7 +25,6 @@
   background-color: #f0f0f028;
 }
 
-/* ROOM CODE ROW */
 .RoomNumber {
   display: flex;
   align-items: center;
@@ -41,7 +39,6 @@
   word-break: break-word;
 }
 
-/* COPY ICON */
 .iconCopy {
   color: #e8e4e4;
   border: 2px solid #0e28f174;
@@ -52,26 +49,23 @@
   cursor: pointer;
 }
 
-/* TEXT */
 .card p {
   margin: 6px 0;
   line-height: 1.4;
 }
 
-/* ===================== */
-/* RESPONSIVE */
-/* ===================== */
-
 @media (max-width: 1024px) {
   .cardsRoomCode {
     width: 40%;
     max-width: 60%;
+    margin-top: 80px;
   }
 }
 
 @media (max-width: 768px) {
   .cardsRoomCode {
-    width: 50%;
+    width: 60%;
+    max-width: 100%;
   }
 
   .iconDone {
@@ -86,6 +80,7 @@
 @media (max-width: 500px) {
   .cardsRoomCode {
     width: 100%;
+    max-width: 70%;
   }
 
   .complate {
@@ -108,5 +103,4 @@
   .iconCopy {
     font-size: 26px;
   }
-
 }

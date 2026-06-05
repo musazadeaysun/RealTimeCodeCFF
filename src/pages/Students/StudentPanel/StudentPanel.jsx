@@ -55,14 +55,12 @@ const StudentPanel = () => {
     };
   }, [roomCode, participantId]);
 
-  // SCROLL SYNC
   const handleScroll = (e) => {
     if (lineNumbersRef.current) {
       lineNumbersRef.current.scrollTop = e.target.scrollTop;
     }
   };
 
-  // KOD DƏYİŞ + STREAM
   const handleCodeChange = (e) => {
     const newCode = e.target.value;
     setCode(newCode);
@@ -75,7 +73,6 @@ const StudentPanel = () => {
     }
   };
 
-  // LOGOUT
   const handleLogout = () => {
     localStorage.removeItem("studentName");
     localStorage.removeItem("roomCode");
@@ -83,7 +80,6 @@ const StudentPanel = () => {
     navigate("/");
   };
 
-  // RUN
   const handleRunCode = async () => {
     if (!navigator.onLine) {
       setError("Internet yoxdur. Zəhmət olmasa bağlantını yoxla.");
@@ -112,7 +108,6 @@ const StudentPanel = () => {
     }
   };
 
-  // TERMİNAL TƏMİZLƏ
   const deleteTerminal = () => {
     setOutput("");
     setError("");
@@ -120,7 +115,6 @@ const StudentPanel = () => {
 
   return (
     <div className="studentPanel">
-      {/* HEADER */}
       <div className="studentPanelHeader">
         <div className="panelHeaderLeft">
           <p>
@@ -138,23 +132,18 @@ const StudentPanel = () => {
           <MdOutlineLogout className="iconLogOut" onClick={handleLogout} />
         </div>
       </div>
-
-      {/* MAIN */}
       <div className="main">
-        {/* EDITOR */}
         <div className="editorSide">
           <div className="editor">
             <span>EDITOR</span>
           </div>
           <div className="editorWrapper">
-            {/* LINE NUMBERS */}
             <div className="lineNumbers" ref={lineNumbersRef}>
               {lines.map((_, i) => (
                 <div key={i}>{i + 1}</div>
               ))}
             </div>
 
-            {/* TEXTAREA */}
             <textarea
               value={code}
               onChange={handleCodeChange}
@@ -164,7 +153,6 @@ const StudentPanel = () => {
           </div>
         </div>
 
-        {/* TERMINAL */}
         <div className="terminalSide">
           <div className="sectionHeader">
             <span>TERMINAL</span>

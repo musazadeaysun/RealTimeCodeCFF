@@ -33,7 +33,7 @@
   padding: 30px 20px;
 }
 
-.text-section {
+.textSection {
   text-align: center;
   max-width: 650px;
 }
@@ -58,7 +58,7 @@
 
 .cards {
   margin-top: 30px;
-  width: 100%;
+  width: 90%;
   max-width: 750px;
 }
 
@@ -90,24 +90,20 @@
   height: 48px;
   border-radius: 8px;
 }
-
 .card p {
   color: #aaa;
   font-size: 15px;
   width: 91%;
 }
-
-.card a {
+.cardLink {
   display: flex;
-  /* margin-top: 10px; */
   color: #3b82f6;
   text-decoration: none;
   font-size: 18px;  
   justify-content: flex-end;
-
   transition: 0.25s;
 }
-.card a:hover {
+.cardLink:hover {
   color: #2563eb;
   transform: translateX(4px);
 }
@@ -138,7 +134,7 @@
     padding: 20px 15px;
   }
 
-  .text-section {
+  .textSection {
     max-width: 100%;
   }
 }
@@ -152,7 +148,7 @@
     font-size: 14px;
   }
 
-  .card a {
+  .cardLink {
     font-size: 15px;
   }
 }

@@ -1,19 +1,25 @@
-
 .leftPanel {
-  background-color: rgb(20, 19, 19);
   width: 25%;
-  height: 100vh;
   position: fixed;
-  left:0;
+  left: 0;
   top: 0;
-  overflow-y: auto;
+  height: 100vh;
+  background: #181616;
+}
+
+.rightPanel {
+  margin-left: 25%;
+  width: calc(100% - 25%);
+  min-height: 100vh;
+  box-sizing: border-box;
+  background: rgb(10, 10, 11);
 }
 .dashboard {
   display: flex;
   flex-direction: row;
   min-height: 100vh;
   color: white;
-overflow: hidden;
+  overflow-x: hidden;
 }
 .panelContent {
   display: flex;
@@ -61,17 +67,20 @@ overflow: hidden;
   font-size: 28px;
 }
 .searchInput {
+  width: calc(100% - 38px);
+  margin: 8px 19px;
+  padding: 12px;
   border: 2px solid #0e349d;
-  padding: 10px;
+  border-radius: 12px;
   font-weight: bold;
-  width: 89%;
-  margin-left: 20px;
+  box-sizing: border-box;
 }
 .searchInput:focus {
   outline: none;
   border-color: #2563eb;
   box-shadow: 0 0 8px #2563eb;
 }
+
 .activeBox {
   display: flex;
   align-items: center;
@@ -85,13 +94,14 @@ overflow: hidden;
   gap: 10px;
   padding-top: 10px;
 }
-.emptyStudents{
+.emptyStudents {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 20px;
-  margin-top: 10px;
+  margin: 15px;
+  color: red;
 }
 .avatar {
   width: 42px;
@@ -111,16 +121,20 @@ overflow: hidden;
   flex-direction: row;
   align-items: center;
   gap: 12px;
-
   padding: 12px 17px;
   margin: 8px 19px;
-
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(255, 255, 255, 0.03);
-
   transition: all 0.25s ease;
   cursor: pointer;
+}
+.panelContent h2 {
+  font-size: 20px;
+}
+.editButton,
+.saveButton {
+  margin-left: auto;
 }
 
 .studentCard:hover {
@@ -146,9 +160,17 @@ overflow: hidden;
   .codeLineNumbers {
     min-width: 40px;
   }
+  .panelContent h2 {
+    font-size: 16px;
+  }
+  .panelContent p {
+    font-size: 12px;
+  }
+  .emptyStudents {
+    font-size: 14px;
+  }
 }
 @media (max-width: 768px) {
-
   .dashboard {
     flex-direction: column;
   }
@@ -160,18 +182,18 @@ overflow: hidden;
   }
 
   .rightPanel {
-    margin-left: 0;
     width: 100%;
-    height: auto;
+    margin-left: 0;
+    padding: 10px;
+    overflow-x: hidden;
   }
-
   .codeLineNumbers {
     display: none;
   }
 
   .codeEditArea {
-    min-height: 300px;
-    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
   }
   .editButton,
   .saveButton {

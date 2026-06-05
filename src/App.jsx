@@ -12,12 +12,9 @@ function App() {
       <Route path="/" element={<MainPage />} />
       <Route path="/pages/Teachers/CreateRoom" element={<CreateRoom />} />
       <Route path="/pages/Students/JoinRoom" element={<JoinRoom />} />
-      <Route
-  path="/landingRoom/:roomCode"
-  element={<LandingRoom />}
-/>
-<Route path="/teacher/:roomCode" element={<TeacherDashboard />} />
-<Route path="/room/:roomCode" element={<StudentPanel />} />
+      <Route path="/landingRoom/:roomCode" element={<LandingRoom />} />
+      <Route path="/teacher/:roomCode" element={<TeacherDashboard />} />
+      <Route path="/room/:roomCode" element={<StudentPanel />} />
     </Routes>
   );
 }

@@ -1,14 +1,26 @@
 import React, { useEffect, useState } from "react";
 import "./TeacherPanel.css";
-import { FaArrowLeft, FaEdit, FaCheck, FaTimes, FaUserSlash, FaUsers, FaSave, FaRegEdit } from "react-icons/fa";
+import "./TeacherDashboard.css";
+import {
+  FaArrowLeft,
+  FaEdit,
+  FaUserSlash,
+  FaUsers,
+  FaSave,
+} from "react-icons/fa";
 
-const TeacherPanel = ({ activeStudents, selectedStudent, onBack, roomCode, client }) => {
+const TeacherPanel = ({
+  activeStudents,
+  selectedStudent,
+  onBack,
+  roomCode,
+  client,
+}) => {
   const [studentCode, setStudentCode] = useState("");
   const [studentOutput, setStudentOutput] = useState("");
   const [studentError, setStudentError] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [editCode, setEditCode] = useState("");
-
   useEffect(() => {
     if (!selectedStudent || !roomCode || !client?.current) return;
 
@@ -19,40 +31,38 @@ const TeacherPanel = ({ activeStudents, selectedStudent, onBack, roomCode, clien
     setStudentError("");
     setIsEditing(false);
 
-const codeSub = stompClient.subscribe(
-  `/topic/room/${roomCode}/participant/${selectedStudent.id}`,
-  (message) => {
-    const data = JSON.parse(message.body);
+    const codeSub = stompClient.subscribe(
+      `/topic/room/${roomCode}/participant/${selectedStudent.id}`,
+      (message) => {
+        const data = JSON.parse(message.body);
 
-    setStudentCode(data.code || "");
+        setStudentCode(data.code || "");
 
-    if (!isEditing) {
-      setEditCode(data.code || "");
-    }
-  }
-);
+        if (!isEditing) {
+          setEditCode(data.code || "");
+        }
+      },
+    );
     // 2. Run nəticəsi
     const execSub = stompClient.subscribe(
       `/topic/room/${roomCode}/executions`,
       (message) => {
-        const data = JSON.parse(message.body);
-        if (Number(data.participantId) === Number(selectedStudent.id)) {
-          if (data.success) {
-            setStudentOutput(data.result || "");
-            setStudentError("");
-          } else {
-            setStudentError(data.result || "Xəta baş verdi");
-            setStudentOutput("");
+        try {
+          const data = JSON.parse(message.body);
+          if (Number(data.participantId) === Number(selectedStudent.id)) {
+            if (data.success) {
+              setStudentOutput(data.result || "");
+              setStudentError("");
+            } else {
+              setStudentError(data.result || "Xəta baş verdi");
+              setStudentOutput("");
+            }
           }
+        } catch (err) {
+          console.error("Invalid JSON", err);
         }
-      }
+      },
     );
-
-    // 3. Watch göndər → mövcud kodu al
-    stompClient.publish({
-      destination: `/app/watch/${roomCode}/${selectedStudent.id}`,
-      body: "",
-    });
 
     // Watch cavabını dinlə
     const watchSub = stompClient.subscribe(
@@ -61,8 +71,14 @@ const codeSub = stompClient.subscribe(
         const data = JSON.parse(message.body);
         setStudentCode(data.code || "");
         setEditCode(data.code || "");
-      }
+      },
     );
+
+    // 3. Watch göndər → mövcud kodu al
+    stompClient.publish({
+      destination: `/app/watch/${roomCode}/${selectedStudent.id}`,
+      body: "",
+    });
 
     return () => {
       codeSub.unsubscribe();
@@ -71,7 +87,6 @@ const codeSub = stompClient.subscribe(
     };
   }, [selectedStudent, roomCode, client]);
 
-  // Edit göndər
   const handleSendEdit = () => {
     if (!client?.current) return;
 
@@ -84,53 +99,47 @@ const codeSub = stompClient.subscribe(
     setIsEditing(false);
   };
 
-  // Edit ləğv et
   const handleCancelEdit = () => {
     setEditCode(studentCode);
     setIsEditing(false);
   };
 
-  const lines = (isEditing ? editCode : studentCode)
-    ? (isEditing ? editCode : studentCode).split("\n")
+  const currentCode = isEditing ? editCode : studentCode;
+
+  const lines = currentCode
+    ? currentCode.split("\n")
     : ["// Şagird hələ kod yazmayıb"];
 
-  // ── NO STUDENT SELECTED ──────────────────────────
   if (!selectedStudent) {
     return (
       <div className="rightPanel">
         <div className="welcomeHeader">
-          <div>
-            <h2>Xoş gəlmisiniz, Müəllim</h2>
-          </div>
+          <h2>Xoş gəlmisiniz, Müəllim</h2>
         </div>
 
         <div className="studentsGrid">
-  {activeStudents.length === 0 ? (
-    <div className="noStudents">
-      <FaUserSlash className="noStudentsIcon" />
-  <h3>Hələ heç bir şagird qoşulmayıb</h3>
-  <p>
-    Şagirdlərin otağa qoşulmasını gözləyin.
-  </p>
-</div>
-  ) : (
-    <>
-      <div className="studentsInfo">
-        <FaUsers className="studentsIcon" />
-      <h3>Hazırda otaqda {activeStudents.length} tələbə var. </h3>  
-       <p> Kodlarına baxmaq üçün tələbənin üzərinə klik edin.</p>
-      </div>
-    </>
-  )}
-</div>
+          {activeStudents.length === 0 ? (
+            <div className="noStudents">
+              <FaUserSlash className="noStudentsIcon" />
+              <h3>Hələ heç bir şagird qoşulmayıb</h3>
+              <p>Şagirdlərin otağa qoşulmasını gözləyin.</p>
+            </div>
+          ) : (
+            <>
+              <div className="studentsInfo">
+                <FaUsers className="studentsIcon" />
+                <h3>Hazırda otaqda {activeStudents.length} tələbə var. </h3>
+                <p> Kodlarına baxmaq üçün tələbənin üzərinə klik edin.</p>
+              </div>
+            </>
+          )}
+        </div>
       </div>
     );
   }
 
-  // ── STUDENT SELECTED ─────────────────────────────
   return (
     <div className="rightPanel studentView">
-
       {/* Header */}
       <div className="studentViewHeader">
         <div className="studentViewLeft">
@@ -138,50 +147,46 @@ const codeSub = stompClient.subscribe(
             <FaArrowLeft />
           </button>
           <div className="gridAvatar">
-            {selectedStudent.nickname.slice(0, 2).toUpperCase()}
+            {selectedStudent?.nickname?.slice(0, 2)?.toUpperCase() || "??"}
           </div>
           <div>
-            <h3>{selectedStudent.nickname}</h3>
-           
+            <h3>{selectedStudent?.nickname}</h3>
           </div>
         </div>
-        <span className="langBadge">PYTHON</span>
       </div>
 
-      {/* Code Viewer */}
       <div className="codeViewBox">
         <div className="codeViewHeader">
-          <span>{selectedStudent.nickname}'s code</span>
+          <span>{selectedStudent?.nickname}'s code</span>
 
-          {/* Edit / Save / Cancel buttons */}
-          {!isEditing ? (
-            <p
-              className="editButton"
-              onClick={() => {
-                setEditCode(studentCode);
-                setIsEditing(true);
-              }}
-            >
-              <FaEdit /> Edit
-            </p>
-          ) : (
-            <div className="editActions">
-              <p className="saveButton" onClick={handleSendEdit}>
-                <FaSave /> Save
+          <div className="codeActions">
+            {!isEditing ? (
+              <p
+                className="editButton"
+                onClick={() => {
+                  setEditCode(studentCode);
+                  setIsEditing(true);
+                }}
+              >
+                <FaEdit /> Edit
               </p>
-            </div>
-          )}
+            ) : (
+              <div className="editActions">
+                <p className="saveButton" onClick={handleSendEdit}>
+                  <FaSave /> Save
+                </p>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="codeViewBody">
-          {/* Line numbers */}
           <div className="codeLineNumbers">
             {lines.map((_, i) => (
               <div key={i}>{i + 1}</div>
             ))}
           </div>
 
-          {/* Read-only ya da Edit mode */}
           {isEditing ? (
             <textarea
               className="codeEditArea"
@@ -191,16 +196,16 @@ const codeSub = stompClient.subscribe(
             />
           ) : (
             <p className="codeContent">
-              {studentCode || "// Şagird hələ kod yazmayıb və ya Məlumat yüklənir..."}
+              {studentCode ||
+                "// Şagird hələ kod yazmayıb və ya Məlumat yüklənir..."}
             </p>
           )}
         </div>
       </div>
 
-      {/* Terminal */}
       <div className="terminalViewBox">
         <div className="terminalViewHeader">
-          <span>TERMİNAL — {selectedStudent.nickname}</span>
+          <span>TERMİNAL — {selectedStudent?.nickname}</span>
         </div>
         <div className="terminalViewBody">
           {!studentOutput && !studentError && (
@@ -211,12 +216,9 @@ const codeSub = stompClient.subscribe(
           {studentOutput && (
             <pre style={{ color: "lightgreen" }}>{studentOutput}</pre>
           )}
-          {studentError && (
-            <pre style={{ color: "red" }}>{studentError}</pre>
-          )}
+          {studentError && <pre style={{ color: "red" }}>{studentError}</pre>}
         </div>
       </div>
-
     </div>
   );
 };

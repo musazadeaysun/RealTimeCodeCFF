@@ -30,7 +30,6 @@ const JoinRoom = () => {
 
       const data = await joinRoomApi(roomCode, studentName);
 
-      // 🔥 IMPORTANT: backend response
       const participant = data.data;
 
       localStorage.setItem("participantId", participant.id);
@@ -50,15 +49,12 @@ const JoinRoom = () => {
 
   return (
     <div className="home">
-      {/* VIDEO */}
       <video className="bg-video" autoPlay loop muted playsInline>
         <source src="/picture/mainVideo.mp4" type="video/mp4" />
       </video>
 
-      {/* CONTENT */}
       <div className="content">
-        {/* TEXT */}
-        <div className="text-section">
+        <div className="textSection">
           <p className="title">
             #Düşün <br /> #Yaz <br /> #Yarat
           </p>
@@ -70,8 +66,6 @@ const JoinRoom = () => {
             </p>
           </div>
         </div>
-
-        {/* CARDS */}
         <div className="cardsJoinRoom">
           <div className="card">
             <h2>Otağa Qoşul</h2>

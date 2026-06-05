@@ -22,7 +22,7 @@ const navigate = useNavigate();
         setRoom(data?.data);
           setTimeout(() => {
         navigate(`/teacher/${roomCode}`);
-      }, 3000);
+      }, 4000);
       } catch (error) {
         console.error(error);
       }
@@ -31,18 +31,15 @@ const navigate = useNavigate();
     if (roomCode) {
       fetchRoom();
     }
-  }, [roomCode,navigate]);
+  }, [roomCode]);
   return (
     <div className="home">
-      {/* VIDEO */}
       <video className="bg-video" autoPlay loop muted playsInline>
         <source src="/picture/mainVideo.mp4" type="video/mp4" />
       </video>
 
-      {/* CONTENT */}
       <div className="content">
-        {/* TEXT */}
-        <div className="text-section">
+        <div className="textSection">
           <p className="title">
             #Düşün <br /> #Yaz <br /> #Yarat
           </p>
@@ -55,7 +52,6 @@ const navigate = useNavigate();
           </div>
         </div>
 
-        {/* CARDS */}
         <div className="cardsRoomCode">
           <div className="card">
             <div className="complate">

@@ -16,10 +16,8 @@ const navigate = useNavigate();
   const handleCreateRoomClick = async () => {
     try {
       setLoading(true);
-
       const data = await getLanguagesApi();
       setLanguages(data.data || []);
-
       setLanguageEnabled(true);
     } catch (error) {
       console.error(error);
@@ -27,13 +25,10 @@ const navigate = useNavigate();
       setLoading(false);
     }
   };
-
 const handleLanguageChange = async (e) => {
   const language = e.target.value;
-
   setSelectedLanguage(language);
   if (!language) return;
-
   try {
     const data = await createRoomApi(language);
     const roomCode = data?.data?.roomCode;
@@ -49,7 +44,7 @@ const handleLanguageChange = async (e) => {
       </video>
 
       <div className="content">
-        <div className="text-section">
+        <div className="textSection">
           <p className="title">
             #Düşün <br />
             #Yaz <br />
